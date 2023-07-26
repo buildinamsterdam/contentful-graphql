@@ -60,7 +60,12 @@ const fetchData = async (args: DataTypeArgs) => {
 
 ```typescript
 import { createClient } from "@buildinams/contentful-graphql";
-const makeQuery = createClient(...)
+const makeQuery = createClient({
+  environment: process.env.CONTENTFUL_ENV || "",
+  spaceId: process.env.CONTENTFUL_SPACE_ID || "",
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || "",
+  previewKey: process.env.CONTENTFUL_PREVIEW_KEY || "",
+});
 ```
 
 Create client creates a helper function that is able to send GraphQL queries to your Contentful space. The expected arguments are;
@@ -75,7 +80,14 @@ Create client creates a helper function that is able to send GraphQL queries to 
 
 ```typescript
 import { ContentfulAdaptor } from "@buildinams/contentful-graphql";
-const Adaptor = new ContentfulAdaptor(...);
+const Adaptor = new ContentfulAdaptor({
+  contentAdaptors: {
+    BlockMedia: blockMediaAdaptor,
+  },
+  pageAdaptors: {
+    Homepage: homepageAdaptor,
+  },
+});
 ```
 
 This generates a Javascript class that gives you the option to adapt the data. Expected arguments;
@@ -87,7 +99,9 @@ This generates a Javascript class that gives you the option to adapt the data. E
 
 ```typescript
 import { getIndicatorProps } from "@buildinams/contentful-graphql/getIndicatorProps";
-<div {...getIndicatorProps(...)} />
+<h1 {...getIndicatorProps({ entryId: entry.sys.id, fieldId: "title" })}>
+  {entry.title}
+</h1>;
 ```
 
 A small helper function to get [indicator mode](https://www.contentful.com/developers/docs/tutorials/general/live-preview/#set-up-inspector-mode) in Contentful preview mode. Expected arugments;
