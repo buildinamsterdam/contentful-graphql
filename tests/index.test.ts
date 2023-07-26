@@ -1,15 +1,28 @@
-import { renderHook } from "@testing-library/react";
+import { ContentfulAdaptor } from "../src";
 
-import useHook from "../dist";
+const DATA = {
+  __typename: "page",
+  title: "Page title",
+  body: [
+    { __typename: "content", title: "Block title" },
+    { __typename: "media", src: "http://" },
+  ],
+};
 
-describe("The hook", () => {
+describe("ContentfulAdaptor", () => {
   it("should work with the first argument", () => {
-    const baz = renderHook(() => useHook({ foo: "foo" }));
-    expect(baz.result.current).toEqual("foo");
-  });
+    const Adaptor = new ContentfulAdaptor({
+      contentAdaptors: {
+        content: (data) => ({ ...data, subtitle: "Block subtitle" }),
+      },
+      pageAdaptors: {
+        page: (data) => ({ ...data, title: "Adapted page title" }),
+      },
+    });
 
-  it("should work with both arguments", () => {
-    const baz = renderHook(() => useHook({ foo: "foo", bar: "bar" }));
-    expect(baz.result.current).toEqual("foobar");
+    const outcome = Adaptor.adapt(DATA);
+
+    expect(outcome.title).toBe("Adapted page title");
+    expect(outcome.body[0].subtitle).toBe("Block subtitle");
   });
 });
