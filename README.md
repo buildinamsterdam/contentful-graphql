@@ -95,6 +95,24 @@ This generates a JavaScript class that gives you the option to adapt the data. E
 - **contentAdaptors** - Content adaptors run recursively over the provided data. When an object matches the pattern: `{ __typename: {key} }` it will run the adaptor with the matching `{key}`.
 - **pageAdaptors** - Page adaptors only run top level. These can be used if you want to format the initial data but you don't want to run to run them when they are referenced. Example; we want a `pageLayout` to contain all data but when referenced in a `cta` we don't want the page adaptor.
 
+#### Adaptors
+
+The concept of adaptors are generics that modifiy certain data by content type (`__typename`). Often these can follow the structure below;
+
+```typescript
+const blockMediaAdaptor = (data: ContentfulQueryResponse) => {
+  return {
+    type: data.file.fileType,
+    src: data.src,
+    ratio: data.height / data.width,
+  };
+};
+
+export type BlockMedia = ReturnType<typeof blockMediaAdaptor>;
+```
+
+Within your application you can then use the `BlockMedia` type to link back to the type of data you expect to receive.
+
 ### getIndicatorProps
 
 ```typescript
