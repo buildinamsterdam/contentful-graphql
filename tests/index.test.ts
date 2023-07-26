@@ -1,6 +1,4 @@
-import { renderHook } from "@testing-library/react";
-
-import { CFAdaptor } from "../src";
+import { ContentfulAdaptor } from "../src";
 
 const DATA = {
   __typename: "page",
@@ -11,9 +9,9 @@ const DATA = {
   ],
 };
 
-describe("CFAdaptor", () => {
+describe("ContentfulAdaptor", () => {
   it("should work with the first argument", () => {
-    const Adaptor = new CFAdaptor({
+    const Adaptor = new ContentfulAdaptor({
       contentAdaptors: {
         content: (data) => ({ ...data, subtitle: "Block subtitle" }),
       },

@@ -34,7 +34,10 @@ npm i @buildinams/contentful-graphql
 Example 1 description.
 
 ```tsx
-import { createClient, adaptor } from "@buildinams/contentful-graphql";
+import {
+  createClient,
+  ContentfulAdaptor,
+} from "@buildinams/contentful-graphql";
 
 const makeQuery = createClient({
   environment: process.env.CONTENTFUL_ENV || "",
@@ -43,7 +46,7 @@ const makeQuery = createClient({
   previewKey: process.env.CONTENTFUL_PREVIEW_KEY || "",
 });
 
-export const cfAdaptor = new CFAdaptor({});
+export const adaptor = new ContentfulAdaptor({});
 
 const fetchData = async (args: DataTypeArgs) => {
   const data = await makeQuery<DataType>({
@@ -51,7 +54,7 @@ const fetchData = async (args: DataTypeArgs) => {
     variables: args,
   });
 
-  return cfAdaptor.adapt(data);
+  return adaptor.adapt(data);
 };
 ```
 

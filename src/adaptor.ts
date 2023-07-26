@@ -4,7 +4,7 @@ export type AdaptorTypes = {
   [x: string | number | symbol]: Adaptor;
 };
 
-export type CFAdaptorArgs = {
+export type ContentfulAdaptorArgs = {
   contentAdaptors: AdaptorTypes;
   pageAdaptors: AdaptorTypes;
 };
@@ -14,14 +14,14 @@ export type DataObject = Record<string | number | symbol, any>;
 const fallbackPageAdaptor: Adaptor = (x) => x;
 
 /**
- * @function CFAdaptor
+ * @function ContentfulAdaptor
  * @description Generate a client to adapt the provided data
  */
-export class CFAdaptor {
+export class ContentfulAdaptor {
   #pageAdaptors: AdaptorTypes = {};
   #contentAdaptors: AdaptorTypes = {};
 
-  constructor(args?: CFAdaptorArgs) {
+  constructor(args?: ContentfulAdaptorArgs) {
     const { contentAdaptors = {}, pageAdaptors = {} } = args || {};
     this.#contentAdaptors = contentAdaptors;
     this.#pageAdaptors = pageAdaptors;

@@ -1,5 +1,7 @@
 import compress from "gql-compress";
 
+type SomeObject = Record<string | number | symbol, any>;
+
 export type CreateClientArgs = {
   baseUrl?: string;
   environment?: string;
@@ -26,7 +28,7 @@ export const createClient = (args: CreateClientArgs) => {
     ...args,
   };
 
-  return async <T>(args: MakeQueryArgs): Promise<T> => {
+  return async <T extends SomeObject>(args: MakeQueryArgs): Promise<T> => {
     const res = await fetch(
       `${clientArgs.baseUrl}/v1/spaces/${clientArgs.spaceId}/environments/${clientArgs.environment}`,
       {
