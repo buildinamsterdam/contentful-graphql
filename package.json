@@ -15,10 +15,9 @@
     "url": "https://github.com/buildinamsterdam/contentful-graphql/issues"
   },
   "keywords": [
-    "react",
-    "hooks",
-    "hook",
-    "react-hook"
+    "contentful",
+    "graphql",
+    "data"
   ],
   "scripts": {
     "build": "tsc",
