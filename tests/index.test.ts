@@ -1,15 +1,30 @@
 import { renderHook } from "@testing-library/react";
 
-import useHook from "../dist";
+import { CFAdaptor } from "../src";
 
-describe("The hook", () => {
+const DATA = {
+  __typename: "page",
+  title: "Page title",
+  body: [
+    { __typename: "content", title: "Block title" },
+    { __typename: "media", src: "http://" },
+  ],
+};
+
+describe("CFAdaptor", () => {
   it("should work with the first argument", () => {
-    const baz = renderHook(() => useHook({ foo: "foo" }));
-    expect(baz.result.current).toEqual("foo");
-  });
+    const Adaptor = new CFAdaptor({
+      contentAdaptors: {
+        content: (data) => ({ ...data, subtitle: "Block subtitle" }),
+      },
+      pageAdaptors: {
+        page: (data) => ({ ...data, title: "Adapted page title" }),
+      },
+    });
 
-  it("should work with both arguments", () => {
-    const baz = renderHook(() => useHook({ foo: "foo", bar: "bar" }));
-    expect(baz.result.current).toEqual("foobar");
+    const outcome = Adaptor.adapt(DATA);
+
+    expect(outcome.title).toBe("Adapted page title");
+    expect(outcome.body[0].subtitle).toBe("Block subtitle");
   });
 });
